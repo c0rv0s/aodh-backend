@@ -77,7 +77,7 @@ app.post('/api/contact', function(req,res) {
   var content = `name: ${name} \n email: ${email} \n message: ${message} `
   var mail = {
     from: name,
-    to: 'c0rv0s.trash@gmail.com',
+    to: 'aodhxyz@gmail.com',
     subject: 'New Message from Aodh Contact',
     text: content
   }
