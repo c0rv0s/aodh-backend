@@ -157,14 +157,7 @@ app.post('/api/change_posts', function(req,res) {
       return res.status(400).send(err)
     }
     else {
-      db.query('SELECT posts FROM discover WHERE username = $1', [username], function(err, table) {
-	if (err) {
-	  return res.status(400).send(err)
-	}
-	else {
-	  val += table.rows[0].posts 
-	  console.log(val)
-	  db.query('UPDATE discover SET posts = $1 WHERE username = $2', [val,username], function(err,table) {
+	  db.query('UPDATE discover SET posts = posts + $1 WHERE username = $2', [val,username], function(err,table) {
             done()
             if (err) {
 		console.log(err)
@@ -174,12 +167,9 @@ app.post('/api/change_posts', function(req,res) {
              return res.status(200).send()
             }
           })
-	}
-      })
-    }
-  })
-
-})
+     }
+    })
+ })
 
 app.get('/api/fetch_user', function(req, res) {
   var username = req.query.username + '.id.blockstack'
