@@ -103,14 +103,7 @@ app.post('/api/add_user', function(req, res) {
     }
     else {
 
-      db.query('SELECT COUNT(*) FROM discover', (err, table) => {
-        if (err) {
-          return console.log(err)
-        }
-        else {
-          table_height = parseInt(table.rows[0].count)
-	  
-          db.query('INSERT INTO discover VALUES ($1, $2, 0, 0) ON CONFLICT (username) DO NOTHING', [table_height, username], function(err,table) {
+          db.query('INSERT INTO discover(username,discoverable,posts) VALUES ($1, 0, 0) ON CONFLICT (username) DO NOTHING', [username], function(err,table) {
             done()
             if (err) {
               return res.status(400).send(err)
@@ -119,10 +112,6 @@ app.post('/api/add_user', function(req, res) {
               return res.status(200).send()
             }
           })
-
-
-       }
-      })
     }
   })
 })
