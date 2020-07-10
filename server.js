@@ -2,10 +2,11 @@ let express = require('express')
 let bodyParser = require('body-parser')
 let morgan = require('morgan')
 let pg = require('pg')
+const path = require('path');
 const PORT = 3000
-
-//email stuff
 const creds = require('./config/config')
+//email stuff
+/*
 var nodemailer = require('nodemailer');
 
 var transport = {
@@ -25,12 +26,13 @@ transporter.verify((error, success) => {
     console.log('Server is ready to take messages');
   }
 });
+*/
 //end email stuff
 
 let pool = new pg.Pool({
 	port: 5432,
-	user: 'aodh',
-	password: 'helloaodh',
+	user: creds.databaseUser,
+	password: creds.databasePass,
 	database: 'postgres',
 	idleTimeoutMillis: 1500, 
   	connectionTimeoutMillis: 1500, 
@@ -69,6 +71,8 @@ app.use(function(req, res, next) {
   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept")
   next()
 })
+
+app.use(express.static("../aodh/public/build"));
 
 app.post('/api/contact', function(req,res) {
   var name = req.body.name
@@ -227,7 +231,8 @@ app.post('/api/list_ten', function(req, res) {
   })
 })
 
+app.get('*', (req,res) =>{
+    res.sendFile(path.join(__dirname+'/../aodh/public/build/index.html'));
+});
 
 app.listen(PORT, () => console.log('listening on port ' + PORT))
-
-
