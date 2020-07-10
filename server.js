@@ -6,11 +6,13 @@ const path = require('path');
 const PORT = 3000
 const creds = require('./config/config')
 //email stuff
-/*
+
 var nodemailer = require('nodemailer');
 
 var transport = {
   host: 'smtp.gmail.com',
+  port: 465,
+  secure: true,
   auth: {
     user: creds.USER,
     pass: creds.PASS
@@ -26,7 +28,7 @@ transporter.verify((error, success) => {
     console.log('Server is ready to take messages');
   }
 });
-*/
+
 //end email stuff
 
 let pool = new pg.Pool({
